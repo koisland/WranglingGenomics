@@ -1,0 +1,21 @@
+data:
+  paths:
+    reads_dir: "data/trimmed_fastq"
+    ref_dir: "data/ref_genome"
+  ref_url:
+    ecoli_rel606: ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/017/985/GCA_000017985.1_ASM1798v1/GCA_000017985.1_ASM1798v1_genomic.fna.gz
+  # Sample SRA accession and ID. Paired end.
+  # {BASE_URL}/{ID}/{SAMPLE}/{SAMPLE}_{NUM}.fastq.gz
+  sample_base_url: ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/{id}/{sample}/{sample}_{pair_num}.fastq.gz
+  sample_acc_ids:
+    SRR2589044: "004"
+    SRR2584863: "003"
+    SRR2584866: "006"
+
+qc:
+  paths:
+    output_dir: "output/qc"
+
+align:
+  paths:
+    output_dir: "output/align"

@@ -1,0 +1,22 @@
+# https://snakemake-wrappers.readthedocs.io/en/stable/wrappers/fastqc.html
+import sys
+
+assert "--configfile" in sys.argv, "Missing --configfile flag."
+
+
+include: "rules/data.smk"
+include: "rules/qc.smk"
+include: "rules/trim.smk"
+include: "rules/align.smk"
+
+
+wildcard_constraints:
+    sample="[A-Za-z0-9]+",
+
+
+rule all:
+    input:
+        rules.download_all.input,
+        rules.qc_all.input,
+        rules.trim_all.input,
+        rules.align_all.input,
