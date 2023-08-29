@@ -41,7 +41,14 @@ rule join_fastqc_summaries:
         """
 
 
+outputs = [
+    expand(rules.fastqc.output, sample=SAMPLES.keys(), pair_num=[1, 2]),
+]
+
+if config["qc"]["join_summary_results"]:
+    outputs.append(rules.join_fastqc_summaries.output)
+
+
 rule qc_all:
     input:
-        expand(rules.fastqc.output, sample=SAMPLES.keys(), pair_num=[1, 2]),
-        rules.join_fastqc_summaries.output,
+        outputs,

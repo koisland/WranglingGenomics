@@ -9,7 +9,7 @@ rule download_adapters:
     output:
         os.path.join(OUTPUT_DIR, "NexteraPE-PE.fa"),
     params:
-        url="https://raw.githubusercontent.com/timflutre/trimmomatic/master/adapters/NexteraPE-PE.fa",
+        url=config["qc"]["adapters_url"],
     log:
         "logs/trimmomatic/download_adapters.log",
     shell:
@@ -41,8 +41,8 @@ rule trimmomatic:
         "logs/trimmomatic/{sample}.log",
     params:
         trimmer=lambda wc, input: [
-            "SLIDINGWINDOW:4:20",
-            "MINLEN:25",
+            f"SLIDINGWINDOW:{config['qc']['trim']['window_len']}:{config['qc']['trim']['phred_thr']}",
+            f"MINLEN:{config['qc']['trim']['min_base_len']}",
             f"ILLUMINACLIP:{input.adapters}:2:40:15",
         ],
         # optional parameters

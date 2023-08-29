@@ -8,6 +8,7 @@ include: "rules/data.smk"
 include: "rules/qc.smk"
 include: "rules/trim.smk"
 include: "rules/align.smk"
+include: "rules/variant_call.smk"
 
 
 wildcard_constraints:
@@ -20,3 +21,4 @@ rule all:
         rules.qc_all.input,
         rules.trim_all.input,
         rules.align_all.input,
+        rules.variant_call_all.input,

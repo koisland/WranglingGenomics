@@ -11,7 +11,7 @@ rule download_all:
             sample=SAMPLES.keys(),
             pair_num=[1, 2],
         ),
-        expand(os.path.join(REF_DIR, "{genome}.fasta.gz"), genome=REFS.keys()),
+        expand(os.path.join(REF_DIR, "{genome}.fasta"), genome=REFS.keys()),
 
 
 # Metadata https://github.com/datacarpentry/wrangling-genomics/blob/main/episodes/files/Ecoli_metadata_composite.csv
@@ -26,15 +26,19 @@ rule download_reads:
         "logs/data/download_{sample}_{pair_num}.log",
     shell:
         """
-        mkdir -p $(dirname {output})
         curl -L -o {output} {params.url} &> {log}
         """
 
 
-use rule download_reads as download_ref_genome with:
+rule download_ref_genome:
     output:
-        os.path.join(REF_DIR, "{genome}.fasta.gz"),
+        os.path.join(REF_DIR, "{genome}.fasta"),
     params:
         url=lambda wc: REFS[wc.genome],
     log:
         "logs/data/download_{genome}.log",
+    shell:
+        """
+        curl -L -o {output}.gz {params.url} &> {log}
+        gunzip {output}.gz
+        """

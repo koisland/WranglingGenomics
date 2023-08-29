@@ -25,7 +25,7 @@ rule bwa_index:
         "v2.6.0/bio/bwa/index"
 
 
-# Align reads to reference and sort.
+# Align reads to reference and sort by chr coord.
 rule bwa_mem:
     input:
         reads=[rules.trimmomatic.output.r1, rules.trimmomatic.output.r2],
@@ -36,8 +36,8 @@ rule bwa_mem:
         "logs/bwa_mem/{sample}-{genome}.log",
     params:
         extra=r"-R '@RG\tID:{sample}\tSM:{sample}'",
-        sorting="samtools",  # Can be 'none', 'samtools' or 'picard'.
-        sort_order="queryname",  # Can be 'queryname' or 'coordinate'.
+        sorting=config["align"]["sorting"],  # Can be 'none', 'samtools' or 'picard'.
+        sort_order="coordinate",  # Can be 'queryname' or 'coordinate'.
         sort_extra="",  # Extra args for samtools/picard.
     threads: 8
     wrapper:

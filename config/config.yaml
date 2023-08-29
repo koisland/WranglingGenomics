@@ -13,9 +13,20 @@ data:
     SRR2584866: "006"
 
 qc:
+  join_summary_results: true
+  adapters_url: https://raw.githubusercontent.com/timflutre/trimmomatic/master/adapters/NexteraPE-PE.fa
   paths:
     output_dir: "output/qc"
+  trim:
+    window_len: 4
+    phred_thr: 20
+    min_base_len: 25
 
 align:
   paths:
     output_dir: "output/align"
+  sorting: "samtools"
+
+variant_call:
+  paths:
+    output_dir: "output/variant_call"
